@@ -4,7 +4,7 @@ import { convertToCurrency, dateformat } from "@/utils"
 import Modal from "./Modal"
 import FormNewModel, { FORM_MODE } from "./FormNewModel"
 import { BsFiletypeCsv, BsPencil, BsPrinter, BsTrash } from "react-icons/bs"
-import { useRef } from "react"
+import { useCallback, useRef } from "react"
 import Barcode from "react-barcode"
 import Swal from "sweetalert2"
 
@@ -15,7 +15,9 @@ export default function ListTickets() {
     const modalFormEditRef = useRef()
     const ticketPerPage = 12
 
-    const tickets = Array.from({ length: cantTickets.value })
+    const tickets = useCallback(() => {
+        return Array.from({ length: cantTickets.value })
+    }, [cantTickets.value])
 
     const handleAfterSaving = () => {
         modalFormEditRef.current.close()
@@ -92,7 +94,7 @@ export default function ListTickets() {
         URL.revokeObjectURL(blobUrl);
     }
 
-    console.log(tickets.length)
+    console.log(tickets().length)
 
     return (
         <div>
@@ -151,13 +153,13 @@ export default function ListTickets() {
             </div>
             <div className="max-w-4xl mx-auto overflow-x-auto flex flex-wrap">
                 {
-                    tickets.length === 0 &&
+                    tickets().length === 0 &&
                     <p className="mx-auto">
                         Indica el número de tickets
                     </p>
                 }
                 {
-                    tickets.map((_, index) => {
+                    tickets().map((_, index) => {
                         const isBreakPage = (index + 1) % ticketPerPage === 0
                         const numberTicket = (index + 1)
 
