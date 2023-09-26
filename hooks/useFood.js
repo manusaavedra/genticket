@@ -34,18 +34,7 @@ export default function useFood() {
         localStorage.setItem("foods", JSON.stringify(newFoods))
     }
 
-    const remove = async (id) => {
-        const confirm = await Swal.fire({
-            text: "Quieres eliminar está comida??",
-            showCancelButton: true,
-            confirmButtonText: "Eliminar",
-            confirmButtonColor: "red"
-        })
-
-        if (confirm.dismiss) {
-            return false;
-        }
-
+    const remove = (id) => {
         if (currentFood.id === id) {
             useFoodStore.setState({ currentFood: null })
         }

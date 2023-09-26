@@ -6,6 +6,7 @@ import FormNewModel, { FORM_MODE } from "./FormNewModel"
 import { BsFileExcel, BsFiletypeCsv, BsPencil, BsPrinter, BsTrash } from "react-icons/bs"
 import { useRef } from "react"
 import Barcode from "react-barcode"
+import Swal from "sweetalert2"
 
 export default function ListTickets() {
     const { foods, currentFood, addCurrent, remove } = useFood()
@@ -20,10 +21,19 @@ export default function ListTickets() {
 
     }
 
-    const handleRemoveFood = (id) => {
-        cantTickets.setValue(0)
-        selectedFood.setValue('')
-        remove(id)
+    const handleRemoveFood = async (id) => {
+        const confirm = await Swal.fire({
+            text: "Quieres eliminar está comida??",
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+            confirmButtonColor: "red"
+        })
+
+        if (confirm.isConfirmed) {
+            cantTickets.setValue(0)
+            selectedFood.setValue('')
+            remove(id)
+        }
     }
 
     const handleChangeAdapter = (e) => {
