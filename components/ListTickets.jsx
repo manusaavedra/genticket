@@ -94,8 +94,6 @@ export default function ListTickets() {
         URL.revokeObjectURL(blobUrl);
     }
 
-    console.log(tickets().length)
-
     return (
         <div>
             <div className='noprinter flex overflow-hidden flex-col md:flex-row p-2 md:items-center justify-center gap-2 max-w-4xl bg-gray-100 mx-auto w-full'>
