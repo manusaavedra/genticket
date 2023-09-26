@@ -142,7 +142,7 @@ export default function ListTickets() {
                 }
                 {
                     tickets.map((_, index) => (
-                        <div className="min-w-[10cm] p-2 flex items-center justify-between overflow-hidden break-inside-avoid border border-gray-200 border-dotted w-1/2 h-[4cm]" key={index}>
+                        <div className="min-w-[10cm] p-2 flex items-center justify-between overflow-hidden break-inside-avoid-page border border-gray-200 border-dotted w-1/2 h-[4cm]" key={index}>
                             <div className="w-28 h-28 flex flex-col justify-center items-center">
                                 <picture className="overflow-hidden">
                                     <img
