@@ -177,9 +177,9 @@ export default function ListTickets() {
                                         <Barcode textMargin={0} fontSize={9} height={15} margin={2} width={1} value={String(numberTicket).padStart(4, "1")} />
                                     </div>
                                 </div>
-                                <div className="min-w-fit px-3 flex flex-col gap-3">
+                                <div className="w-[180px] px-3 flex flex-col gap-3">
                                     <div>
-                                        <h4 className="font-bold text-lg">
+                                        <h4 className="font-bold text-base">
                                             {currentFood.title}
                                         </h4>
                                         <p className="text-xs">{currentFood.description}</p>
