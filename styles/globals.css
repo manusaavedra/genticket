@@ -14,6 +14,10 @@ label {
   @apply font-medium
 }
 
+.jumpPrinter {
+  page-break-after: always;
+}
+
 @page {
   margin: .3cm;
 }

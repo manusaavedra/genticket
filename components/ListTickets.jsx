@@ -3,7 +3,7 @@ import useInput from "@/hooks/useInput"
 import { convertToCurrency, dateformat } from "@/utils"
 import Modal from "./Modal"
 import FormNewModel, { FORM_MODE } from "./FormNewModel"
-import { BsFileExcel, BsFiletypeCsv, BsPencil, BsPrinter, BsTrash } from "react-icons/bs"
+import { BsFiletypeCsv, BsPencil, BsPrinter, BsTrash } from "react-icons/bs"
 import { useRef } from "react"
 import Barcode from "react-barcode"
 import Swal from "sweetalert2"
@@ -13,12 +13,12 @@ export default function ListTickets() {
     const selectedFood = useInput('')
     const cantTickets = useInput(0)
     const modalFormEditRef = useRef()
+    const ticketPerPage = 12
 
     const tickets = Array.from({ length: cantTickets.value })
 
     const handleAfterSaving = () => {
         modalFormEditRef.current.close()
-
     }
 
     const handleRemoveFood = async (id) => {
@@ -55,21 +55,25 @@ export default function ListTickets() {
             return false
         }
 
-        const { image, id, description, ...restFoodDataTemplate } = currentFood
+        const { image, id, description, address, ...restFoodDataTemplate } = currentFood
 
-        const csvHeaders = Object.keys({
-            ticket: '',
-            names: '',
-            ...restFoodDataTemplate,
-            paid: '',
-        }).join(',');
+        const csvHeaders = [
+            "Nº ticket",
+            "Nombre y Apellido",
+            "Comida",
+            "Precio",
+            "Fecha",
+            "Estado de pago",
+            "Método de pago"
+        ].join(',');
 
         const csvData = tickets.map((_, index) => Object.values(
             {
-                ticket: String(index + 1).padStart(4, "0"),
+                ticket: String(index + 1).padStart(4, "1"),
                 names: '',
                 ...restFoodDataTemplate,
                 paid: 'NO',
+                paymentMethod: ''
             }
         ).join(','))
 
@@ -81,12 +85,14 @@ export default function ListTickets() {
 
         const a = document.createElement('a');
         a.href = blobUrl;
-        a.download = `${currentFood.title} ${new Date().toLocaleDateString()}.csv`;
+        a.download = `${currentFood.title} ${dateformat(currentFood.date)}.csv`;
 
         a.click();
 
         URL.revokeObjectURL(blobUrl);
     }
+
+    console.log(tickets.length)
 
     return (
         <div>
@@ -126,7 +132,7 @@ export default function ListTickets() {
                     currentFood && (
                         <fieldset className="border p-2">
                             <legend className="text-sm font-medium">Numero de tickets</legend>
-                            <input className="w-40" min={0} value={cantTickets.value} onChange={cantTickets.handleChange} type="number" name='number' />
+                            <input className="w-40" min={0} max={500} value={cantTickets.value} onChange={cantTickets.handleChange} type="number" name='number' />
                         </fieldset>
                     )
                 }
@@ -151,47 +157,52 @@ export default function ListTickets() {
                     </p>
                 }
                 {
-                    tickets.map((_, index) => (
-                        <div className="min-w-[10cm] p-2 flex items-center justify-between overflow-hidden break-inside-avoid-page border border-gray-200 border-dotted w-1/2 h-[4cm]" key={index}>
-                            <div className="w-28 h-28 flex flex-col justify-center items-center">
-                                <picture className="overflow-hidden">
-                                    <img
-                                        className="block h-full"
-                                        src={currentFood.image || '/next.svg'}
-                                        alt=""
-                                    />
-                                </picture>
-                                <div className="relative text-xs font-medium rounded-sm flex justify-center">
-                                    {String(index + 1).padStart(4, "0")}
-                                </div>
-                            </div>
-                            <div className="min-w-fit px-3 flex flex-col gap-3">
-                                <div>
-                                    <h4 className="font-bold text-lg">
-                                        {currentFood.title}
-                                    </h4>
-                                    <p className="text-xs">{currentFood.description}</p>
-                                </div>
-                                <div>
-                                    <div>
-                                        <label className="capitalize text-[12px]" htmlFor="">lugar:</label>
-                                        <p className="text-xs">{currentFood.address}</p>
+                    tickets.map((_, index) => {
+                        const isBreakPage = (index + 1) % ticketPerPage === 0
+                        const numberTicket = (index + 1)
+
+                        return (
+                            <div key={index} className={`${isBreakPage ? 'jumpPrinter' : ''} min-w-[10cm] p-2 flex items-center justify-between overflow-hidden border border-gray-200 border-dotted w-1/2 h-[4cm]`}>
+                                <div className="w-28 flex flex-col justify-center items-center">
+                                    <picture className="w-28 h-28 flex items-center justify-center overflow-hidden">
+                                        <img
+                                            className="block h-full"
+                                            src={currentFood.image || '/next.svg'}
+                                            alt=""
+                                        />
+                                    </picture>
+                                    <div className="relative text-xs font-medium rounded-sm flex justify-center">
+                                        <Barcode textMargin={0} fontSize={9} height={15} margin={2} width={1} value={String(numberTicket).padStart(4, "1")} />
                                     </div>
-                                    <p className="capitalize text-xs font-medium">
-                                        {dateformat(currentFood.date)}
-                                    </p>
+                                </div>
+                                <div className="min-w-fit px-3 flex flex-col gap-3">
+                                    <div>
+                                        <h4 className="font-bold text-lg">
+                                            {currentFood.title}
+                                        </h4>
+                                        <p className="text-xs">{currentFood.description}</p>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <label className="capitalize text-[12px]" htmlFor="">lugar:</label>
+                                            <p className="text-xs">{currentFood.address}</p>
+                                        </div>
+                                        <p className="capitalize text-xs font-medium">
+                                            {dateformat(currentFood.date)}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="w-[80px] flex justify-center items-center gap-0 border-l-2 border-dotted">
+                                    <div className="h-6 bg-yellow-400 px-1 font-medium rounded-sm rotate-[-90deg]">
+                                        {convertToCurrency(parseFloat(currentFood.price))}
+                                    </div>
+                                    <div className="font-medium ml-[-30px] rounded-sm flex justify-center rotate-[-90deg]">
+                                        <Barcode textMargin={0} fontSize={14} height={15} width={1} value={String(numberTicket).padStart(4, "1")} />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="w-[80px] flex justify-center items-center gap-0 border-l-2 border-dotted">
-                                <div className="h-6 bg-yellow-400 px-1 font-medium rounded-sm rotate-[-90deg]">
-                                    {convertToCurrency(parseFloat(currentFood.price))}
-                                </div>
-                                <div className="font-medium ml-[-30px] rounded-sm flex justify-center rotate-[-90deg]">
-                                    <Barcode textMargin={0} fontSize={14} height={15} width={1} value={String(index + 1).padStart(4, "0")} />
-                                </div>
-                            </div>
-                        </div>
-                    ))
+                        )
+                    })
                 }
             </div>
         </div>
