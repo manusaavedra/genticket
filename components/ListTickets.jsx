@@ -192,12 +192,12 @@ export default function ListTickets() {
                                         </p>
                                     </div>
                                 </div>
-                                <div className="w-[80px] flex justify-center items-center gap-0 border-l-2 border-dotted">
-                                    <div className="h-6 bg-yellow-400 px-1 font-medium rounded-sm rotate-[-90deg]">
+                                <div className="w-[70px] flex justify-center items-center gap-0 border-l-2 border-dotted">
+                                    <div className="h-5 bg-yellow-400 px-1 text-sm font-medium rounded-sm rotate-[-90deg]">
                                         {convertToCurrency(parseFloat(currentFood.price))}
                                     </div>
                                     <div className="font-medium ml-[-30px] rounded-sm flex justify-center rotate-[-90deg]">
-                                        <Barcode textMargin={0} fontSize={14} height={15} width={1} value={String(numberTicket).padStart(4, "1")} />
+                                        <Barcode textMargin={0} fontSize={14} height={15} margin={5} width={1} value={String(numberTicket).padStart(4, "1")} />
                                     </div>
                                 </div>
                             </div>
