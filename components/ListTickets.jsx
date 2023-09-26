@@ -14,6 +14,7 @@ export default function ListTickets() {
     const cantTickets = useInput(0)
     const modalFormEditRef = useRef()
     const ticketPerPage = 12
+    const prefixNumberTicket = "T"
 
     const tickets = useCallback(() => {
         return Array.from({ length: cantTickets.value })
@@ -57,24 +58,26 @@ export default function ListTickets() {
             return false
         }
 
-        const { image, id, description, address, ...restFoodDataTemplate } = currentFood
+        const { title, price, date } = currentFood
 
         const csvHeaders = [
             "Nº ticket",
             "Nombre y Apellido",
             "Comida",
-            "Precio",
             "Fecha",
+            "Precio",
             "Estado de pago",
             "Método de pago"
         ].join(',')
 
         const csvData = tickets().map((_, index) => Object.values(
             {
-                ticket: String(index + 1).padStart(4, "0"),
+                ticket: prefixNumberTicket + String((index + 1)).padStart(4, "0"),
                 names: '',
-                ...restFoodDataTemplate,
-                paid: 'NO',
+                title,
+                date,
+                price,
+                paid: 'No',
                 paymentMethod: ''
             }
         ).join(','))
@@ -88,7 +91,6 @@ export default function ListTickets() {
         const a = document.createElement('a');
         a.href = blobUrl;
         a.download = `${currentFood.title} ${dateformat(currentFood.date)}.csv`;
-
         a.click();
 
         URL.revokeObjectURL(blobUrl);
@@ -96,8 +98,8 @@ export default function ListTickets() {
 
     return (
         <div>
-            <div className='noprinter flex overflow-hidden flex-col md:flex-row p-2 md:items-center justify-center gap-2 max-w-4xl bg-gray-100 mx-auto w-full'>
-                <fieldset className='w-full flex items-center border p-2 gap-2'>
+            <div className='noprinter bg-gray-100 flex overflow-hidden flex-col md:flex-row p-2 md:items-center justify-start gap-2 max-w-4xl mx-auto w-full'>
+                <fieldset className='flex items-center border p-2 gap-2'>
                     <legend className="text-sm font-medium">
                         Elegir comida
                     </legend>
@@ -114,7 +116,7 @@ export default function ListTickets() {
                     {
                         currentFood && (
                             <div className="flex items-center gap-2">
-                                <Modal ref={modalFormEditRef} className="border p-2" text={<BsPencil />}>
+                                <Modal ref={modalFormEditRef} className="p-2 border" text={<BsPencil />}>
                                     <FormNewModel
                                         onAfterSubmit={handleAfterSaving}
                                         mode={FORM_MODE.EDIT}
@@ -131,7 +133,7 @@ export default function ListTickets() {
                 {
                     currentFood && (
                         <fieldset className="border p-2">
-                            <legend className="text-sm font-medium">Numero de tickets</legend>
+                            <legend className="text-sm font-medium">Nº tickets</legend>
                             <input className="w-40" min={0} max={500} value={cantTickets.value} onChange={cantTickets.handleChange} type="number" name='number' />
                         </fieldset>
                     )
@@ -139,6 +141,7 @@ export default function ListTickets() {
                 {
                     cantTickets.value > 0 && (
                         <fieldset className="flex gap-2 border p-2">
+                            <legend className="text-sm font-medium">Acciones</legend>
                             <button title="Imprimir" onClick={() => window.print()} className="border p-2">
                                 <BsPrinter />
                             </button>
@@ -159,7 +162,7 @@ export default function ListTickets() {
                 {
                     tickets().map((_, index) => {
                         const isBreakPage = (index + 1) % ticketPerPage === 0
-                        const numberTicket = (index + 1)
+                        const numberTicket = prefixNumberTicket + String((index + 1)).padStart(4, "0")
 
                         return (
                             <div key={index} className={`${isBreakPage ? 'jumpPrinter' : ''} min-w-[10cm] p-2 flex items-center justify-between overflow-hidden border border-gray-200 border-dotted w-1/2 h-[4cm]`}>
@@ -172,7 +175,7 @@ export default function ListTickets() {
                                         />
                                     </picture>
                                     <div className="relative text-xs font-medium rounded-sm flex justify-center">
-                                        <Barcode textMargin={0} fontSize={9} height={15} margin={2} width={1} value={String(numberTicket).padStart(4, "0")} />
+                                        <Barcode textMargin={0} fontSize={9} height={15} margin={2} width={1} value={numberTicket} />
                                     </div>
                                 </div>
                                 <div className="w-[180px] px-3 flex flex-col gap-3">
@@ -197,7 +200,7 @@ export default function ListTickets() {
                                         {convertToCurrency(parseFloat(currentFood.price))}
                                     </div>
                                     <div className="font-medium ml-[-30px] rounded-sm flex justify-center rotate-[-90deg]">
-                                        <Barcode textMargin={0} fontSize={14} height={15} margin={5} width={1} value={String(numberTicket).padStart(4, "0")} />
+                                        <Barcode textMargin={0} fontSize={14} height={15} margin={5} width={1} value={numberTicket} />
                                     </div>
                                 </div>
                             </div>

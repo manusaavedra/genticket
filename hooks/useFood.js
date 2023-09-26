@@ -1,6 +1,5 @@
 import { useFoodStore } from "@/store"
 import { useEffect } from "react"
-import Swal from "sweetalert2"
 
 export default function useFood() {
     const { foods, currentFood } = useFoodStore()
