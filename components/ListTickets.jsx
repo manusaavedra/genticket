@@ -71,7 +71,7 @@ export default function ListTickets() {
 
         const csvData = tickets.map((_, index) => Object.values(
             {
-                ticket: String(index + 1).padStart(4, "1"),
+                ticket: String(index + 1).padStart(4, "0"),
                 names: '',
                 ...restFoodDataTemplate,
                 paid: 'NO',
@@ -172,7 +172,7 @@ export default function ListTickets() {
                                         />
                                     </picture>
                                     <div className="relative text-xs font-medium rounded-sm flex justify-center">
-                                        <Barcode textMargin={0} fontSize={9} height={15} margin={2} width={1} value={String(numberTicket).padStart(4, "1")} />
+                                        <Barcode textMargin={0} fontSize={9} height={15} margin={2} width={1} value={String(numberTicket).padStart(4, "0")} />
                                     </div>
                                 </div>
                                 <div className="w-[180px] px-3 flex flex-col gap-3">
@@ -197,7 +197,7 @@ export default function ListTickets() {
                                         {convertToCurrency(parseFloat(currentFood.price))}
                                     </div>
                                     <div className="font-medium ml-[-30px] rounded-sm flex justify-center rotate-[-90deg]">
-                                        <Barcode textMargin={0} fontSize={14} height={15} margin={5} width={1} value={String(numberTicket).padStart(4, "1")} />
+                                        <Barcode textMargin={0} fontSize={14} height={15} margin={5} width={1} value={String(numberTicket).padStart(4, "0")} />
                                     </div>
                                 </div>
                             </div>
