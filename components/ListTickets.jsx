@@ -106,9 +106,9 @@ export default function ListTickets() {
                     <select className="w-40" value={selectedFood.value} onChange={handleChangeAdapter} name="venta">
                         <option value="">Seleccionar</option>
                         {
-                            foods?.map((eat) => (
-                                <option key={eat.id} value={eat.id}>
-                                    {eat.title}
+                            foods?.map((food) => (
+                                <option key={food.id} value={food.id}>
+                                    {food.title}
                                 </option>
                             ))
                         }
