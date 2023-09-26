@@ -1,18 +1,36 @@
 import FormNewModel from '@/components/FormNewModel'
 import ListTickets from '@/components/ListTickets'
 import Modal from '@/components/Modal'
+import useBrowser from '@/hooks/useBrowser'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { BsPlus } from 'react-icons/bs'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
     const modalRef = useRef()
+    const { isSafari } = useBrowser()
 
     const handleCloseModal = () => {
         modalRef.current.close()
+    }
+
+    if (isSafari) {
+        return (
+            <div className='flex flex-col gap-2 justify-center items-center h-screen px-4'>
+                <picture>
+                    <img src="/next.svg" width={100} alt='logo' />
+                </picture>
+                <p className='text-center'>
+                    Lo sentimos pero este sitio aún no es compatible con safari.
+                </p>
+                <p>
+                    Usa chrome u otro navegador desde un pc.
+                </p>
+            </div>
+        )
     }
 
     return (
