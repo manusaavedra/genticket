@@ -53,7 +53,7 @@ export default function ListTickets() {
     }
 
     const handleBuildCsvTemplate = () => {
-        if (tickets.length === 0) {
+        if (tickets().length === 0) {
             return false
         }
 
@@ -67,9 +67,9 @@ export default function ListTickets() {
             "Fecha",
             "Estado de pago",
             "Método de pago"
-        ].join(',');
+        ].join(',')
 
-        const csvData = tickets.map((_, index) => Object.values(
+        const csvData = tickets().map((_, index) => Object.values(
             {
                 ticket: String(index + 1).padStart(4, "0"),
                 names: '',
