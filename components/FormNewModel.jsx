@@ -35,8 +35,8 @@ export default function FormNewModel({ onAfterSubmit, data, mode = FORM_MODE.CRE
     }
 
     return (
-        <form ref={formRef} onSubmit={handleSubmit} className='flex flex-col gap-2'>
-            <div>
+        <form ref={formRef} onSubmit={handleSubmit} className='flex flex-col max-w-sm gap-2'>
+            <div className="opacity-0">
                 <input type="text" disabled name='id' defaultValue={generateRandomId()} />
             </div>
             <div>

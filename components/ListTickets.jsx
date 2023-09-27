@@ -139,9 +139,9 @@ export default function ListTickets() {
                 {
                     currentFood && (
                         <fieldset className="flex items-center gap-2 border p-2">
-                            <legend className="text-sm font-medium">Nº tickets</legend>
+                            <legend className="text-sm font-medium">Tickets</legend>
                             <div className="flex items-center gap-1">
-                                <label className="text-xs">núm.</label>
+                                <label className="text-xs">cant.</label>
                                 <input ref={cantTickets} className="w-30" min={1} max={500} defaultValue={0} type="number" name='number' />
                             </div>
                             <div className="flex items-center gap-1">

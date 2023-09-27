@@ -24,7 +24,7 @@ const Modal = forwardRef(function Modal({ children, text, className }, ref) {
             <button className={className} onClick={toggleOpen}>{text}</button>
             <div className={`${open ? 'block' : 'hidden'} fixed z-50 top-0 left-0 w-full h-screen`}>
                 <div onClick={handleClose} className='absolute top-0 left-0 w-full h-full bg-black opacity-30'></div>
-                <div className='p-4 top-14 mx-auto relative bg-white w-[90%] max-w-4xl rounded-md'>
+                <div className='p-4 top-14 w-[95%] max-w-sm mx-auto relative bg-white  rounded-md'>
                     {children}
                 </div>
             </div>
