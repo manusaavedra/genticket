@@ -45,9 +45,14 @@ export default function Home() {
                         <picture>
                             <img className='rounded-md' src="/next.svg" width={30} alt="logo" />
                         </picture>
-                        <h4 className='font-semibold text-sm uppercase'>Generador de tickets</h4>
+                        <h4 className='hidden sm:block font-semibold text-sm uppercase'>Generador de tickets</h4>
                     </div>
-                    <Modal className="p-2 border" ref={modalRef} text={<BsPlus size={20} />}>
+                    <Modal className="p-2 border" ref={modalRef} text={
+                        <div className='flex items-center gap-2'>
+                            <BsPlus size={20} />
+                            Nueva comida
+                        </div>
+                    }>
                         <FormNewModel onAfterSubmit={handleCloseModal} />
                     </Modal>
                 </header>
