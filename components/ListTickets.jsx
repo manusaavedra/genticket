@@ -174,7 +174,7 @@ export default function ListTickets() {
                     </p>
                 }
                 {
-                    tickets
+                    currentFood && tickets
                         .map((index) => {
                             const isBreakPage = (index) % ticketPerPage === 0
                             const numberTicket = prefixNumberTicket + String(index).padStart(4, "0")

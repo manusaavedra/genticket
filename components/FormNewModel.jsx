@@ -32,6 +32,8 @@ export default function FormNewModel({ onAfterSubmit, data, mode = FORM_MODE.CRE
             : update(formData)
 
         onAfterSubmit && onAfterSubmit()
+
+        e.target.reset()
     }
 
     return (
