@@ -43,7 +43,7 @@ export default function FormNewModel({ onAfterSubmit, data, mode = FORM_MODE.CRE
             </div>
             <div>
                 <label htmlFor="name">Nombre de la venta</label>
-                <input maxLength={30} autoFocus type="text" name='title' />
+                <input maxLength={100} autoFocus type="text" name='title' />
             </div>
             <div>
                 <label htmlFor="image">URL de la imagen del plato</label>
